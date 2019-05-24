@@ -1,0 +1,217 @@
+@import "mq";
+@import "fonts";
+@import "palette";
+@import "enhancer";
+
+// Uncomment for embeds
+//@import "embed";
+// Uncomment for full screen (including immersive article main media)
+//@import "fullscreen";
+
+.element-atom,
+.interactive-atom {
+    margin: 0 !important;
+}
+
+.coal-run {
+    @include fs-headline(4);
+
+    line-height: 30px;
+
+    // font-size: 26px;
+
+    // line-height: 34px;
+
+    max-width: 620px;
+    
+    padding-bottom: 3px;
+
+    border-bottom: 1px solid #dcdcdc;
+
+    margin-top: 0;
+    margin-bottom: 2px;
+
+    & .coal-green {
+        color: white;
+        background: $green-main;
+        display: inline-block;
+        padding: 0 5px;
+        margin: 2px 0;
+    }
+
+    & .coal-black {
+        color: white;
+        background: #121212;
+        display: inline-block;
+        padding: 0 5px;
+        margin: 2px 0;
+    }
+
+    //display: none;
+}
+
+.coal-key__rect {
+    shape-rendering: crispEdges;
+}
+
+.coal-svg {
+
+    width: 100%;
+    max-width: 860px;
+    shape-rendering: crispEdges;
+    border-bottom: 1px solid #dcdcdc;
+    margin-bottom: 2px;
+    display: block;
+
+}
+
+.coal-label {
+    @include fs-headline(2);
+
+    @include mq($until: tablet) {
+        font-size: 15px;
+    }
+
+    // stroke: white;
+    // stroke-width: 3;
+    // paint-order: stroke;
+    // stroke-opacity: 0.8;
+}
+
+.coal-title {
+    @include fs-header(4);
+    margin-bottom: 6px;
+}
+
+.coal-sub {
+    @include fs-bodyCopy(1);
+    margin-bottom: 9px;
+}
+
+.coal-lu {
+    @include fs-textSans(2);
+    color: #767676;
+    margin-bottom: 12px;
+}
+
+.coal-carto {
+    width: 100%;
+    max-width: 860px;
+    overflow: visible !important;
+    //display: none;
+
+    padding-bottom: 6px;
+    border-bottom: 1px solid #dcdcdc;
+    display: block;
+    margin-bottom: 3px;
+}
+
+.coal-carto-title {
+    @include fs-header(4);
+    margin-bottom: 6px;
+}
+
+.coal-carto-sub {
+    @include fs-bodyCopy(1);
+    margin-bottom: 3px;
+}
+
+.coal-carto-box {
+    stroke: #dcdcdc;
+    fill: none;
+}
+
+.coal-carto-line {
+    stroke-width: 2;
+    fill: #121212;
+    stroke: none;
+}
+
+.coal-carto-area {
+    stroke: white;
+    stroke-width: 0.75;
+}
+
+.coal-carto-y {
+    stroke: none;
+
+    &.coal-carto-y--old {
+        fill: url(#coal-hash);
+    }
+
+    &.coal-carto-y--new {
+        fill: #121212;
+    }
+}
+
+.coal-hash--rect {
+    fill: #b3b3b4;
+}
+
+.coal-hash--path {
+    stroke: #121212;
+}
+
+.coal-country-label {
+    @include fs-textSans(2);
+    fill: white;
+    stroke: #121212;
+    stroke-width: 3;
+    paint-order: stroke;
+    stroke-opacity: 0.7;
+    text-anchor: middle;
+}
+
+.coal-key__label {
+    @include fs-textSans(2);
+    text-anchor: middle;
+
+    fill: #767676;
+
+    &.coal-key__label--zero {
+        font-weight: bold;
+        fill: $green-main;
+    }
+}
+
+.coal-carto-key {
+    margin-bottom: 12px;
+}
+
+.coal-carto-key__block {
+    @include fs-textSans(2);
+
+    display: inline-block;
+    margin-right: 10px;
+    font-style: italic;
+
+}
+
+.coal-carto-r {
+    width: 15px;
+    height: 15px;
+    display: inline-block;
+    margin-right: 5px;
+    transform: translateY(3px);
+    background: transparent;
+
+    &.coal-carto-r--coal {
+        background: #121212;
+    }
+    &.coal-carto-r--fossil {
+        background: #767676;
+    }
+    &.coal-carto-r--nuclear {
+        background: #dcdcdc;
+    }
+    &.coal-carto-r--renewables {
+        background: $green-main;
+    }
+
+}
+
+.coal-carto-source {
+    color: #767676;
+    @include fs-textSans(2);
+    margin-bottom: 12px;
+}

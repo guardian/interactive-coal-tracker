@@ -1,0 +1,11 @@
+node_modules/
+bower_components/
+.build/
+.local/
+yarn.lock
+.DS_Store
+src/server/coal_run
+src/server/last_coal
+src/server/last_percent
+src/server/last_updated
+src/server/gridwatch_full.csv
