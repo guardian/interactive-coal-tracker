@@ -28,13 +28,9 @@ export async function render() {
     const perc = Number(fs.readFileSync('./src/server/last_percent', 'utf-8'))
 
     const curSent1 = perc === 0  ? `Coal is currently generating <strong class='coal-green'>0% of Britain's power</strong>.`
-    : `Coal is currently generating <strong class='coal-black'>${round(perc, 2)}% of Britain's power</strong>.`
+    : `Coal is currently generating <strong class='coal-black'>${round(perc, perc < 0.005 ? 3 : 2)}% of Britain's power</strong>.`
 
     const curSent2 = perc === 0 ? `The coal-free run has lasted <strong class='coal-green'>${coalStr}</strong> so far.` : ''
 
-    return `
-
-    <h1 class='coal-run'>${curSent1} ${curSent2}</h1>
-    <p class='coal-lu'>Source: Gridwatch. Last updated at ${ts}</p>
-    `;
+    return `<div class='coal-empty-div'></div>`;
 }

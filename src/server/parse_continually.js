@@ -5,6 +5,8 @@ import fs from 'fs'
 import sync from 'csv-parse/lib/es5/sync'
 import _ from 'lodash'
 
+const fakeCoal = sync(fs.readFileSync('./src/server/fake_coal_on.csv'), { columns : true })
+
 const sum = (a, b) => a + b
 
 const url = `https://gridwatch.templar.co.uk/do_download.php`
@@ -126,18 +128,19 @@ fetch("https://gridwatch.templar.co.uk/do_download.php", {
     const data = sync(str, { columns : true })
 
     const lastRow = data.slice(-1)[0]
+
     const last = moment(lastRow[' timestamp'])
     const lastBurning = data.slice().reverse().findIndex( row => Number(row[' coal'])  > 0)
-    
+
     if(lastBurning > -1) {
 
-        const newClean = data.slice(lastBurning).find( row => Number(row[' coal']) === 0)
+        const newClean = data.slice(data.length - lastBurning).find( row => Number(row[' coal']) === 0)
 
         if(newClean) {
 
-            prevLastCoal = newClean
+            prevLastCoal = moment(newClean[' timestamp']).format('YYYY-MM-DD HH:mm:ss')
 
-            fs.writeFileSync('./src/server/last_coal', moment.format(newClean, 'YYYY-MM-DD HH:mm:ss'))
+            fs.writeFileSync('./src/server/last_coal', moment(newClean).format('YYYY-MM-DD HH:mm:ss'))
         }
 
         else {
@@ -148,6 +151,8 @@ fetch("https://gridwatch.templar.co.uk/do_download.php", {
     }
 
     let runLength = prevLastCoal === 'burning' ? 0 : moment.duration(last.diff(moment(prevLastCoal, 'YYYY-MM-DD HH:mm:ss'))).asHours()
+
+    console.log(prevLastCoal)
 
     console.log('RUn:', daysAndHours(runLength))
     fs.writeFileSync('./src/server/coal_run', daysAndHours(runLength))

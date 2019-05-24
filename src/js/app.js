@@ -1,5 +1,11 @@
-import * as d3 from 'd3'
-import { $, hashPattern, sum } from './util'
+import * as d3se from 'd3-selection'
+import * as d3a from 'd3-array'
+import * as d3sh from 'd3-shape'
+import * as d3sc from 'd3-scale'
+
+const d3 = Object.assign({}, d3a, d3sc, d3se, d3sh)
+
+import { $, $$, hashPattern, sum, duplicate } from './util'
 import days from '../server/days_combined.json'
 import chroma from 'chroma-js'
 import euGeneration from '../server/eu_generation.json'
@@ -7,6 +13,8 @@ import palette from './palette'
 import ts from '../server/last_updated'
 
 const isMobile = window.matchMedia('(max-width: 739px)').matches
+const isTablet = window.matchMedia('(max-width: 979px)').matches
+
 
 const drawStripes = () => {
 
@@ -200,7 +208,7 @@ const drawCarto = () => {
 
     if(isMobile) {
         m = 4
-        padding = 2
+        padding = 0
 
     }
 
@@ -240,13 +248,57 @@ const drawCarto = () => {
         .attr('class', 'coal-carto-g')
         .attr('id', d => 'g-' + d.code )
 
-    const boxes = gs
-        .append('rect')
+    if(!isMobile) {
+
+        const ire = gs.filter( d => d.country === 'Ireland' )
+        ire.append('text')
+            .attr('x', 0)
+            .attr('y', boxHeight + 14)
+
+            .text('2000')
+            .attr('class', 'coal-carto-y')
+
+        ire.append('text')
+            .attr('x', boxWidth)
+            .attr('y', boxHeight + 14)
+
+            .text('2018')
+            .attr('class', 'coal-carto-y coal-carto-y--right')
+
+        ire.append('text')
+            .attr('x', -4)
+            .attr('y', boxHeight - 1)
+
+            .text('0%')
+            .attr('class', 'coal-carto-y coal-carto-y--right')
+
+        ire.append('text')
+            .attr('x', -4)
+            .attr('y', 11)
+
+            .text('100%')
+            .attr('class', 'coal-carto-y coal-carto-y--right')
+
+    } else {
+
+        const aut = gs.filter( d => d.country === 'Austria' )
+
+        aut
+        .append('text')
         .attr('x', 0)
-        .attr('y', 0)
-        .attr('width', boxWidth )
-        .attr('height', boxHeight)
-        .attr('class', d => d.code === 'UK' ? 'coal-carto-box coal-carto-box--uk' : 'coal-carto-box')
+        .text( '2000' )
+        .attr('y', -3)
+        .attr('class', 'coal-carto-y')
+
+        aut
+        .append('text')
+        .attr('x', boxWidth)
+        .text( '2018' )
+        .attr('y', -3)
+        .attr('class', 'coal-carto-y coal-carto-y--right')
+
+
+    }
 
     const xScale = d3.scaleLinear()
         .domain([ 0, 19 ])
@@ -261,7 +313,11 @@ const drawCarto = () => {
         .y0( d => yScale(d[0]) )
         .y1( d => yScale(d[1]) )
 
-    const lines = gs
+    const line = d3.area()
+        .x((d, i) => i*boxWidth/17)
+        .y( d => yScale(d[1]) )
+
+    const areas = gs
         .selectAll('blah')
         .data( o => {
             const arr = o.data.filter(o => ['Coal', 'Other fossil fuels', 'Nuclear', 'All renewables'].indexOf(o.source) >= 0)
@@ -273,24 +329,16 @@ const drawCarto = () => {
                 })
 
             const out = arr.map((o, i) => {
-
                 const sliced = arr.slice(0, i)
                 const prev = o.data.map( (v, j) => sliced.map( o2 => o2.data[j] ).reduce(sum, 0) )
                 const cumu = o.data.map( (v, j) => v + sliced.map( o2 => o2.data[j] ).reduce(sum, 0) )
-
                 return { source : o.source, data : prev.map( (o, i) => [ o, cumu[i] ]) }
-
             })
             return out
 
         })
         .enter()
         .append('path')
-
-        // .attr('x1', 0)
-        // .attr('x2', boxWidth)
-        // .attr('y1', d => yScale(d.data[0]) )
-        // .attr('y2', d => yScale(d.data.slice(-1)[0]) )
 
         .attr('d', d => area(d.data))
 
@@ -307,12 +355,47 @@ const drawCarto = () => {
 
         })
 
+    const lines = gs
+        .selectAll('blah')
+        .data( o => {
+            const arr = o.data.filter(o => ['Coal', 'Other fossil fuels', 'Nuclear', 'All renewables'].indexOf(o.source) >= 0)
+                .sort((a, b) => {
+
+                    const order = ['Coal', 'Other fossil fuels', 'Nuclear', 'All renewables']
+                    return order.indexOf(a.source) - order.indexOf(b.source)
+
+                })
+
+            const out = arr.map((o, i) => {
+                const sliced = arr.slice(0, i)
+                const prev = o.data.map( (v, j) => sliced.map( o2 => o2.data[j] ).reduce(sum, 0) )
+                const cumu = o.data.map( (v, j) => v + sliced.map( o2 => o2.data[j] ).reduce(sum, 0) )
+                return { source : o.source, data : prev.map( (o, i) => [ o, cumu[i] ]) }
+            })
+            return out
+
+        })
+        .enter()
+        .append('path')
+
+        .attr('d', d => line(d.data))
+
+        .attr('class', 'coal-carto-line')
+
+        const boxes = gs
+        .append('rect')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', boxWidth )
+        .attr('height', boxHeight)
+        .attr('class', d => d.code === 'UK' ? 'coal-carto-box coal-carto-box--uk' : 'coal-carto-box')
+
         gs
             .append('text')
             .attr('x', boxWidth/2 )
             .attr('y', boxHeight - 7)
             .attr('class', 'coal-country-label')
-            .text( d => isMobile ? d.country.replace('Republic', 'Rep.' ) : d.country )
+            .text( d => isMobile || isTablet ? d.country.replace('Republic', 'Rep.' ) : d.country )
 
         //     if(['Coal'].indexOf(d.source) < 0) {
         //         return ''
@@ -326,6 +409,8 @@ const drawCarto = () => {
         //     }[d.source]
 
         // })
+
+        $$('.coal-country-label').forEach( el => duplicate(el, 'coal-country-label--white') )
 
     // const coalRectOld = gs
     //     .append('rect')
