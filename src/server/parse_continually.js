@@ -167,6 +167,6 @@ fetch("https://gridwatch.templar.co.uk/do_download.php", {
 
     fs.writeFileSync('./src/server/days_combined.json', JSON.stringify(combined))
 
-    fs.writeFileSync('./src/server/last_updated', moment().format('h:mma on D MMMM'))
+    fs.writeFileSync('./src/server/last_updated', moment().local().format('h:mma on D MMMM'))
 
 } )
