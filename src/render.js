@@ -32,5 +32,8 @@ export async function render() {
 
     const curSent2 = perc === 0 ? `The coal-free run has lasted <strong class='coal-green'>${coalStr}</strong> so far.` : ''
 
-    return `<div class='coal-empty-div'></div>`;
+    return `
+    <h1 class='coal-run'>${curSent1} ${curSent2}</h1>
+    <p class='coal-lu'>Source: Gridwatch. Last updated at ${ts}</p>
+    `
 }
