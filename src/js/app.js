@@ -121,7 +121,7 @@ const drawStripes = () => {
             .attr('x', (d, i) => i*barWidth)
             .attr('y', 0)
             .attr('height', height)
-            .attr('width', barWidth)
+            .attr('width', barWidth + 0.5)
             .style('fill', d => cScale(d[1]))
 
             el.append('text')
