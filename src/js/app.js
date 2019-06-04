@@ -72,7 +72,7 @@ const drawStripes = () => {
         .data(d3.range(0.01, 0.51, 0.005) )
         .enter()
         .append('rect')
-        .attr('width', kbw)
+        .attr('width', kbw + 0.25)
         .attr('height', kbh)
         .attr('x', (d, i) => 32 + i*kbw)
         .attr('y', 0)
