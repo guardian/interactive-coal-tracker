@@ -32,7 +32,7 @@ const drawStripes = () => {
     const svgEl = $('.coal-svg')
 
     const width = svgEl.getBoundingClientRect().width
-    const height = isMobile ? 50 : 75
+    const height = (234 - 8*2 - 35)/8 //isMobile ? 50 : 75
 
 
     const kbw = (240 - 32)/100
@@ -42,9 +42,9 @@ const drawStripes = () => {
 
     const svg = d3.select(svgEl)
         .attr('width', width)
-        .attr('height', height * 8 + 8*5 + keyMargin )
+        .attr('height', height * 8 + 8*2 + keyMargin )
 
-    const greyScale = chroma.scale().domain([0, 0.5])
+    const greyScale = chroma.scale().domain([0, 0.6]).padding([0.05, 0]).classes(6)
 
     const green = palette.greenMain
 
@@ -56,7 +56,6 @@ const drawStripes = () => {
         .append('g')
         .attr('class', 'coal-key')
         .attr('transform', 'translate(0, 0)')
-
 
 
     keyG
@@ -103,7 +102,7 @@ const drawStripes = () => {
         .enter()
         .append('g')
 
-        .attr('transform', (d, i) => `translate(0, ${keyMargin + i*(height + 5) })` )
+        .attr('transform', (d, i) => `translate(0, ${keyMargin + i*(height + 2) })` )
 
     gs
         .each( function(arr, i) {
