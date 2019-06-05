@@ -100,6 +100,10 @@ const daysAndHours = n => {
 
     if(d === 0 && h === 0) { return 'less than one hour' }
 
+    if(d === 0 && h > 0) {
+        return h === 1 ? '1 hour' : `${h} hours`
+    }
+
     const dayStr = d === 1 ? '1 day' : `${d} days`
     const hourStr = h === 1 ? '1 hour' : `${h} hours`
 
