@@ -32,7 +32,7 @@ const drawStripes = () => {
     const svgEl = $('.coal-svg')
 
     const width = svgEl.getBoundingClientRect().width
-    const height = isMobile ? 50 : 75
+    const height = isMobile ? 43 : 65
 
 
     const kbw = (240 - 32)/100
@@ -42,7 +42,7 @@ const drawStripes = () => {
 
     const svg = d3.select(svgEl)
         .attr('width', width)
-        .attr('height', height * 8 + 8*5 + keyMargin )
+        .attr('height', height * 9 + 9*5 + keyMargin )
 
     const greyScale = chroma.scale().domain([0, 0.5])
 
@@ -110,7 +110,7 @@ const drawStripes = () => {
 
             const el = d3.select(this)
 
-            const barWidth = i === 7 ? width/365 : width/arr.length
+            const barWidth = i === 8 ? width/366 : width/arr.length
 
             el
 
@@ -127,7 +127,7 @@ const drawStripes = () => {
             el.append('text')
             .attr('x', 5)
             .attr('y', 19)
-            .text( [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019][i] )
+            .text( [2012, 2013, 2014, 2015, 2016, 2017, 2018, 2019, 2020][i] )
 
             .attr('class', 'coal-label')
             .style('fill', i <= 3 ? 'white' : '')

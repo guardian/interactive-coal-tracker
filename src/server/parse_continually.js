@@ -24,11 +24,20 @@ const addUp = row => {
 const params = new URLSearchParams()
 
 const dataHist = JSON.parse(fs.readFileSync('./src/server/days_hist.json'))
-const data2019 = JSON.parse(fs.readFileSync('./src/server/days_2019.json'))
+const data2020 = JSON.parse(fs.readFileSync('./src/server/days_2020.json'))
 
-const lastDay = data2019.slice(-1)[0][0]
+const lastDay = data2020.slice(-1)[0][0]
 
-let prevLastCoal = fs.readFileSync('./src/server/last_coal')
+let prevLastCoal = null
+
+try {
+
+    prevLastCoal = fs.readFileSync('./src/server/last_coal')
+
+} catch(err) {
+
+    console.log('Error reading last_coal, moving on ...')
+}
 
 console.log(lastDay)
 
@@ -65,13 +74,13 @@ params.append('starthour', 0)
 params.append('startminute', 0)
 params.append('startday', prev.date())
 params.append('startmonth', prev.month())
-params.append('startyear', 2019)
+params.append('startyear', 2020)
 
 params.append('endhour', now.hour())
 params.append('endminute', 0)
 params.append('endday', now.date())
 params.append('endmonth', now.month())
-params.append('endyear', 2019)
+params.append('endyear', now.year())
 
 const ua = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Ubuntu Chromium/73.0.3683.86 Chrome/73.0.3683.86 Safari/537.36'
 
@@ -89,8 +98,8 @@ const transform = data => {
         .valueOf()
 }
 
-const update = (data2019, newData) => {
-    return [ ...data2019.filter( t => newData.map( t => t[0] ).indexOf( t[0] ) < 0), ...newData ]
+const update = (data2020, newData) => {
+    return [ ...data2020.filter( t => newData.map( t => t[0] ).indexOf( t[0] ) < 0), ...newData ]
 }
 
 const daysAndHours = n => {
@@ -166,7 +175,7 @@ fetch("https://gridwatch.templar.co.uk/do_download.php", {
     const lastPerc = Number(lastRow[' coal'])/ addUp( lastRow )
     fs.writeFileSync('./src/server/last_percent', String(lastPerc))
 
-    const combined = [ ...dataHist, update(data2019, transform(data)) ]
+    const combined = [ ...dataHist, update(data2020, transform(data)) ]
 
 
     fs.writeFileSync('./src/server/days_combined.json', JSON.stringify(combined))
