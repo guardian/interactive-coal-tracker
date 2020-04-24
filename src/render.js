@@ -34,6 +34,6 @@ export async function render() {
 
     return `
     <h1 class='coal-run'>${curSent1} ${curSent2}</h1>
-    <p class='coal-lu'>Source: Gridwatch. Last updated at ${ts}</p>
+    <p class='coal-lu'>Source: Drax Electric Insights. Last updated at ${ts}</p>
     `
 }

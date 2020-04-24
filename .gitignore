@@ -10,3 +10,4 @@ src/server/last_percent
 src/server/last_updated
 src/server/gridwatch_full.csv
 src/server/gridwatch_new.csv
+src/server/days_hist_drax.json

@@ -12,7 +12,9 @@
     "deploypreview": "gulp deploypreview",
     "to_days": "babel-node src/server/to_days.js --max-old-space-size=4096",
     "parse_eu": "babel-node src/server/parse_eu.js",
-    "parse_continually": "babel-node src/server/parse_continually.js"
+    "parse_continually": "babel-node src/server/parse_continually.js",
+    "parse_drax": "babel-node src/server/parse_drax.js",
+    "parse_drax_hist": "babel-node src/server/parse_drax_hist.js"
   },
   "author": "",
   "license": "ISC",
