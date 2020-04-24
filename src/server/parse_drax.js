@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import _ from 'lodash'
 import moment from 'moment'
 
-const url2020 = `https://drax-production.herokuapp.com/api/1/generation-mix?date_from=2020-01-01T00%3A00%3A00%2B01%3A00&date_to=2020-04-24T11%3A55%3A21%2B02%3A00&group_by=30m`
+const url2020 = `https://drax-production.herokuapp.com/api/1/generation-mix?date_from=2020-01-01T00%3A00%3A00%2B01%3A00&date_to=2021-01-01T00%3A00%3A00%2B01%3A00&group_by=30m`
 
 const sum = (a, b) => a + b
 
