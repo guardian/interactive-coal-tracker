@@ -62,7 +62,7 @@ fetch(url2020).then( resp => resp.json() )
         if(!burning) {
 
             const lastEntry = data.slice(-1)[0]
-            const last = moment(lastEntry.start)
+            const last = moment(lastEntry.end)
 
             console.log(last)
 
