@@ -61,7 +61,7 @@
     "gulp-replace": "^0.6.1",
     "gulp-sass": "^4.0.2",
     "lodash": "^4.17.11",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "mustache": "^2.3.0",
     "natives": "^1.1.6",
     "node-fetch": "^2.6.0",
